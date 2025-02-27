@@ -1,8 +1,7 @@
 // app/page.tsx
-import Game from '@/components/Game'; // Adjust path: '@/components' is an alias for root 'components' folder
+import Game from '../components/Game'; // Relative path assuming components/ is at root
 import { Metadata } from 'next';
 
-// Export metadata instead of using <Head>
 export const metadata: Metadata = {
   title: 'Oregon Trail Adventure',
   description: 'A simple Oregon Trail drag-and-drop game',
