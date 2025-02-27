@@ -1,132 +1,81 @@
-import { useState } from 'react';
-import styles from './Game.module.css';
-
-const characters = [
-  { name: 'Ezra Meeker', bio: 'Real pioneer who traveled the Oregon Trail multiple times', img: '/ezra-meeker.jpg' },
-  { name: 'Clara Jones', bio: 'Fictional doctor seeking a new life', img: '/clara-jones.jpg' },
-  { name: 'Thomas Reed', bio: 'Fictional farmer with a big family', img: '/thomas-reed.jpg' },
-  { name: 'Maria Lopez', bio: 'Fictional trader with survival skills', img: '/maria-lopez.jpg' },
-  { name: 'John Smith', bio: 'Fictional blacksmith looking for adventure', img: '/john-smith.jpg' },
-];
-
-const supplies = [
-  { id: 'food', name: 'Food', img: '/food.png' },
-  { id: 'water', name: 'Water', img: '/water.png' },
-  { id: 'tools', name: 'Tools', img: '/tools.png' },
-  { id: 'clothes', name: 'Clothes', img: '/clothes.png' },
-];
-
-export default function Game() {
-  const [selectedCharacter, setSelectedCharacter] = useState(null);
-  const [wagonSupplies, setWagonSupplies] = useState([]);
-  const [day, setDay] = useState(1);
-  const [gameOver, setGameOver] = useState(false);
-
-  const handleCharacterSelect = (character) => {
-    setSelectedCharacter(character);
-  };
-
-  const handleDragStart = (e, supply) => {
-    e.dataTransfer.setData('supplyId', supply.id);
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const supplyId = e.dataTransfer.getData('supplyId');
-    const supply = supplies.find(s => s.id === supplyId);
-    if (supply && wagonSupplies.length < 3) { // Limit to 3 items for simplicity
-      setWagonSupplies([...wagonSupplies, supply]);
-    }
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const nextDay = () => {
-    if (day < 6) {
-      setDay(day + 1);
-    } else {
-      setGameOver(true);
-    }
-  };
-
-  const resetGame = () => {
-    setSelectedCharacter(null);
-    setWagonSupplies([]);
-    setDay(1);
-    setGameOver(false);
-  };
-
-  if (!selectedCharacter) {
-    return (
-      <div className={styles.characterSelection}>
-        <h2>Choose Your Character</h2>
-        <div className={styles.characters}>
-          {characters.map((char) => (
-            <div
-              key={char.name}
-              className={styles.characterCard}
-              onClick={() => handleCharacterSelect(char)}
-            >
-              <img src={char.img} alt={char.name} className={styles.characterImg} />
-              <h3>{char.name}</h3>
-              <p>{char.bio}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className={styles.gameContainer}>
-      <h2>Day {day} of 6</h2>
-      <div className={styles.characterInfo}>
-        <img src={selectedCharacter.img} alt={selectedCharacter.name} />
-        <p>{selectedCharacter.name} - {selectedCharacter.bio}</p>
-      </div>
-      <div className={styles.suppliesArea}>
-        <h3>Available Supplies</h3>
-        {supplies.map((supply) => (
-          <div
-            key={supply.id}
-            draggable
-            onDragStart={(e) => handleDragStart(e, supply)}
-            className={styles.supplyItem}
-          >
-            <img src={supply.img} alt={supply.name} />
-            <p>{supply.name}</p>
-          </div>
-        ))}
-      </div>
-      <div
-        className={styles.wagon}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-      >
-        <h3>Your Wagon</h3>
-        {wagonSupplies.length === 0 ? (
-          <p>Drag supplies here!</p>
-        ) : (
-          wagonSupplies.map((supply) => (
-            <div key={supply.id} className={styles.wagonItem}>
-              <img src={supply.img} alt={supply.name} />
-              <p>{supply.name}</p>
-            </div>
-          ))
-        )}
-      </div>
-      {!gameOver ? (
-        <button onClick={nextDay} className={styles.nextButton}>
-          Next Day
-        </button>
-      ) : (
-        <div>
-          <h3>You Made It to Oregon!</h3>
-          <button onClick={resetGame}>Play Again</button>
-        </div>
-      )}
-    </div>
-  );
+/* components/Game.module.css */
+.characterSelection {
+  text-align: center;
+  padding: 20px;
+}
+.characters {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.characterCard {
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  width: 150px;
+}
+.characterCard:hover {
+  background-color: #f0f0f0;
+}
+.characterImg {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+.gameContainer {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.characterInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.characterInfo img {
+  width: 50px;
+  height: 50px;
+}
+.suppliesArea {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.supplyItem {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  width: 100px;
+}
+.supplyItem img {
+  width: 50px;
+  height: 50px;
+}
+.wagon {
+  border: 2px dashed #666;
+  padding: 20px;
+  min-height: 150px;
+  background-color: #f9f9f9;
+}
+.wagonItem {
+  display: inline-block;
+  margin: 10px;
+  text-align: center;
+}
+.wagonItem img {
+  width: 50px;
+  height: 50px;
+}
+.nextButton {
+  padding: 10px 20px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.nextButton:hover {
+  background-color: #005bb5;
 }
