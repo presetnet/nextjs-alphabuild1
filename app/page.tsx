@@ -1,5 +1,5 @@
 // app/page.tsx
-import Game from '../components/Game'; // Relative path assuming components/ is at root
+import Game from '../components/Game'; // Relative path
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
