@@ -1,6 +1,5 @@
 // components/Game.tsx
-'use client'; // Required for client-side interactivity (drag-and-drop)
-
+'use client';
 import { useState } from 'react';
 import styles from './Game.module.css';
 
@@ -19,7 +18,6 @@ const supplies = [
   { id: 'clothes', name: 'Clothes', img: '/clothes.png' },
 ];
 
-// Define types for TypeScript
 interface Character {
   name: string;
   bio: string;
@@ -100,9 +98,7 @@ export default function Game() {
       <h2>Day {day} of 6</h2>
       <div className={styles.characterInfo}>
         <img src={selectedCharacter.img} alt={selectedCharacter.name} />
-        <p>
-          {selectedCharacter.name} - {selectedCharacter.bio}
-        </p>
+        <p>{selectedCharacter.name} - {selectedCharacter.bio}</p>
       </div>
       <div className={styles.suppliesArea}>
         <h3>Available Supplies</h3>
