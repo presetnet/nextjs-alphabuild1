@@ -1,6 +1,7 @@
 // components/PreGame.tsx
 'use client';
 import { useState } from 'react';
+import Game from './Game'; // Import the Game component
 import styles from './Game.module.css';
 
 const characters = [
