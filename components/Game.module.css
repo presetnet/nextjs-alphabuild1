@@ -2,80 +2,113 @@
 .characterSelection {
   text-align: center;
   padding: 20px;
+  background: url('/background-trail.png') repeat;
 }
+
 .characters {
   display: flex;
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
 }
+
 .characterCard {
-  border: 1px solid #ccc;
+  border: 2px solid #32CD32;
   padding: 10px;
   cursor: pointer;
   width: 150px;
+  background: #8B4513;
+  color: #FFD700;
 }
+
 .characterCard:hover {
-  background-color: #f0f0f0;
+  background-color: #5C4033;
 }
+
 .characterImg {
   width: 100px;
   height: 100px;
   object-fit: cover;
 }
+
 .gameContainer {
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
+  background: url('/background-trail.png') repeat;
+  color: #FFFFFF;
 }
+
+.statusBar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background: #5C4033;
+  padding: 10px;
+  border: 1px solid #32CD32;
+}
+
 .characterInfo {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
 }
+
 .characterInfo img {
   width: 50px;
   height: 50px;
 }
+
 .suppliesArea {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
+
 .supplyItem {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: center;
   width: 100px;
+  background: #8B4513;
+  color: #32CD32;
 }
+
 .supplyItem img {
   width: 50px;
   height: 50px;
 }
+
 .wagon {
-  border: 2px dashed #666;
+  border: 2px dashed #32CD32;
   padding: 20px;
   min-height: 150px;
-  background-color: #f9f9f9;
+  background-color: #5C4033;
 }
+
 .wagonItem {
   display: inline-block;
   margin: 10px;
   text-align: center;
+  color: #FFFFFF;
 }
+
 .wagonItem img {
   width: 50px;
   height: 50px;
 }
+
 .nextButton {
   padding: 10px 20px;
-  background-color: #0070f3;
-  color: white;
+  background-color: #32CD32;
+  color: #000000;
   border: none;
   cursor: pointer;
+  margin-top: 10px;
 }
+
 .nextButton:hover {
-  background-color: #005bb5;
+  background-color: #228B22;
 }
