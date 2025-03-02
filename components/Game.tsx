@@ -31,7 +31,14 @@ interface MiniGameResult {
   healthEarned: number;
 }
 
-const Game = ({ initialSupplies, initialDollars, character }: { initialSupplies: Supply[], initialDollars: number, character: Character }) => {
+interface GameProps {
+  initialSupplies: Supply[];
+  initialDollars: number;
+  character: Character;
+  onReset: () => void; // Callback to reset to pre-game
+}
+
+const Game = ({ initialSupplies, initialDollars, character, onReset }: GameProps) => {
   const [day, setDay] = useState<number>(1);
   const [familyHP, setFamilyHP] = useState<number>(100);
   const [foodMeter, setFoodMeter] = useState<number>(100);
@@ -149,6 +156,7 @@ const Game = ({ initialSupplies, initialDollars, character }: { initialSupplies:
       setWaterMeter(100);
       setWagonSupplies(initialSupplies);
       setDollars(initialDollars);
+      onReset(); // Trigger reset to pre-game
     }
   };
 
