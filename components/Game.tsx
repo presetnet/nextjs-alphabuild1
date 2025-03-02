@@ -1,7 +1,6 @@
 // components/Game.tsx
 'use client';
 import { useState, useEffect } from 'react';
-import PreGame from './PreGame';
 import styles from './Game.module.css';
 
 const landmarks = [
@@ -55,7 +54,7 @@ const Game = ({ initialSupplies, initialDollars, character }: { initialSupplies:
         if (day % 15 === 0) setResting(true);
         if (familyHP <= 0 || foodMeter <= 0 || waterMeter <= 0) setGameOver(true);
         setDay((prev) => prev + 1);
-        if (day % 3 === 0 && Math.random() < 0.3) promptRandomEvent(); // One event every 3 days max
+        if (day % 3 === 0 && Math.random() < 0.3) promptRandomEvent();
       }
     }, 2000);
     return () => clearInterval(interval);
@@ -204,4 +203,4 @@ const Game = ({ initialSupplies, initialDollars, character }: { initialSupplies:
   );
 };
 
-export default PreGame;
+export default Game;
