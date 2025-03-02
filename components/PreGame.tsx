@@ -39,6 +39,7 @@ const PreGame = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [wagonSupplies, setWagonSupplies] = useState<Supply[]>(supplies.map(s => ({ ...s, units: 0 })));
   const [dollars, setDollars] = useState<number>(0);
+  const [showGame, setShowGame] = useState<boolean>(false); // State to trigger game render
 
   console.log('PreGame state:', { selectedCharacter, wagonSupplies, dollars }); // Debug log
 
@@ -70,70 +71,60 @@ const PreGame = () => {
   const startJourney = () => {
     console.log('Start Journey clicked', { selectedCharacter, wagonSupplies }); // Debug log
     if (selectedCharacter && wagonSupplies.some(s => s.units > 0)) {
-      return <Game initialSupplies={wagonSupplies} initialDollars={dollars} character={selectedCharacter} />;
+      setShowGame(true); // Update state to render Game
+    } else {
+      alert("Please select a character and purchase at least one item to start!");
     }
-    alert("Please select a character and purchase at least one item to start!");
-    return null;
   };
 
-  if (!selectedCharacter) {
-    return (
-      <div className={styles.characterSelection}>
-        <h2 style={{ color: '#32CD32' }}>Choose Your Character</h2>
-        <div className={styles.characters}>
-          {characters.map((char) => (
-            <div key={char.name} className={styles.characterCard} onClick={() => handleCharacterSelect(char)}>
-              <img src={char.pfp} alt={char.name} className={styles.characterImg} />
-              <h3 style={{ color: '#FFD700' }}>{char.name}</h3>
-              <p style={{ color: '#FFFFFF' }}>{char.bio} - ${char.dollars}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.gameContainer}>
-      <h2 style={{ color: '#32CD32' }}>Pre-Game: Purchase Supplies</h2>
-      <div className={styles.statusBar}>
-        <p>Dollars Remaining: ${dollars}</p>
-      </div>
-      <div className={styles.characterInfo}>
-        <img src={selectedCharacter.pfp} alt={selectedCharacter.name} />
-        <p style={{ color: '#FFFFFF' }}>{selectedCharacter.name} - {selectedCharacter.bio}</p>
-      </div>
-      <div className={styles.suppliesArea}>
-        <h3 style={{ color: '#32CD32' }}>Shop (Price per Unit)</h3>
-        {wagonSupplies.map((supply) => (
-          <div
-            key={supply.id}
-            draggable
-            onDragStart={(e) => handleDragStart(e, supply)}
-            className={styles.supplyItem}
-          >
-            <img src={supply.img} alt={supply.name} />
-            <p>{supply.name} - ${supply.price}</p>
+    <>
+      {!showGame && (
+        <div className={styles.gameContainer}>
+          <h2 style={{ color: '#32CD32' }}>Pre-Game: Purchase Supplies</h2>
+          <div className={styles.statusBar}>
+            <p>Dollars Remaining: ${dollars}</p>
           </div>
-        ))}
-      </div>
-      <div className={styles.wagon} onDrop={handleDrop} onDragOver={handleDragOver}>
-        <h3 style={{ color: '#32CD32' }}>Your Wagon</h3>
-        {wagonSupplies.every(s => s.units === 0) ? (
-          <p style={{ color: '#FFFFFF' }}>Drag supplies here to prepare!</p>
-        ) : (
-          wagonSupplies.map((supply, index) => (
-            <div key={supply.id + index} className={styles.wagonItem}>
-              <img src={supply.img} alt={supply.name} />
-              <p>{supply.name} x{supply.units}</p>
-            </div>
-          ))
-        )}
-      </div>
-      <button onClick={startJourney} className={styles.nextButton} disabled={wagonSupplies.every(s => s.units === 0)}>
-        Start Journey
-      </button>
-    </div>
+          <div className={styles.characterInfo}>
+            <img src={selectedCharacter?.pfp || ''} alt={selectedCharacter?.name || 'Character'} />
+            <p style={{ color: '#FFFFFF' }}>
+              {selectedCharacter?.name} - {selectedCharacter?.bio}
+            </p>
+          </div>
+          <div className={styles.suppliesArea}>
+            <h3 style={{ color: '#32CD32' }}>Shop (Price per Unit)</h3>
+            {wagonSupplies.map((supply) => (
+              <div
+                key={supply.id}
+                draggable
+                onDragStart={(e) => handleDragStart(e, supply)}
+                className={styles.supplyItem}
+              >
+                <img src={supply.img} alt={supply.name} />
+                <p>{supply.name} - ${supply.price}</p>
+              </div>
+            ))}
+          </div>
+          <div className={styles.wagon} onDrop={handleDrop} onDragOver={handleDragOver}>
+            <h3 style={{ color: '#32CD32' }}>Your Wagon</h3>
+            {wagonSupplies.every(s => s.units === 0) ? (
+              <p style={{ color: '#FFFFFF' }}>Drag supplies here to prepare!</p>
+            ) : (
+              wagonSupplies.map((supply, index) => (
+                <div key={supply.id + index} className={styles.wagonItem}>
+                  <img src={supply.img} alt={supply.name} />
+                  <p>{supply.name} x{supply.units}</p>
+                </div>
+              ))
+            )}
+          </div>
+          <button onClick={startJourney} className={styles.nextButton} disabled={wagonSupplies.every(s => s.units === 0)}>
+            Start Journey
+          </button>
+        </div>
+      )}
+      {showGame && <Game initialSupplies={wagonSupplies} initialDollars={dollars} character={selectedCharacter!} />}
+    </>
   );
 };
 
