@@ -1,17 +1,19 @@
 // app/page.tsx
-import Game from '../components/Game'; // Relative path
+import Game from '../components/Game';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Oregon Trail Adventure',
-  description: 'A simple Oregon Trail drag-and-drop game',
+  title: 'Ezra Meeker\'s Oregon Trail Adventure',
+  description: 'A challenging 8-bit Oregon Trail game with mini-games and survival mechanics',
 };
 
 export default function Page() {
   return (
-    <div>
+    <div style={{ backgroundColor: '#8B4513', minHeight: '100vh', padding: '20px' }}>
       <main>
-        <h1>Welcome to the Oregon Trail</h1>
+        <h1 style={{ color: '#32CD32', fontFamily: 'monospace', textAlign: 'center' }}>
+          Ezra Meeker's Oregon Trail Adventure
+        </h1>
         <Game />
       </main>
     </div>
