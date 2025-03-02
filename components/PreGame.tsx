@@ -40,6 +40,8 @@ const PreGame = () => {
   const [wagonSupplies, setWagonSupplies] = useState<Supply[]>(supplies.map(s => ({ ...s, units: 0 })));
   const [dollars, setDollars] = useState<number>(0);
 
+  console.log('PreGame state:', { selectedCharacter, wagonSupplies, dollars }); // Debug log
+
   const handleCharacterSelect = (character: Character) => {
     setSelectedCharacter(character);
     setDollars(character.dollars);
@@ -66,6 +68,7 @@ const PreGame = () => {
   };
 
   const startJourney = () => {
+    console.log('Start Journey clicked', { selectedCharacter, wagonSupplies }); // Debug log
     if (selectedCharacter && wagonSupplies.some(s => s.units > 0)) {
       return <Game initialSupplies={wagonSupplies} initialDollars={dollars} character={selectedCharacter} />;
     }
