@@ -1,5 +1,5 @@
 // app/page.tsx
-import Game from '../components/Game';
+import PreGame from '../components/PreGame'; // Ensure this is the entry point
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default function Page() {
         <h1 style={{ color: '#32CD32', fontFamily: 'monospace', textAlign: 'center' }}>
           Ezra Meeker's Oregon Trail Adventure
         </h1>
-        <Game />
+        <PreGame />
       </main>
     </div>
   );
