@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Ezra Meeker\'s Oregon Trail Adventure',
-  description: 'A challenging 8-bit Oregon Trail game with mini-games and survival mechanics',
+  description: 'A challenging 8-bit themed Oregon Trail game with mini-games and survival mechanics',
 };
 
 export default function Page() {
