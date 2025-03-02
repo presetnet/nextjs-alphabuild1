@@ -1,7 +1,7 @@
 // components/PreGame.tsx
 'use client';
-import { useState } from 'react';
-import Game from './Game'; // Import the Game component
+import { useState, useEffect } from 'react';
+import Game from './Game';
 import styles from './Game.module.css';
 
 const characters = [
@@ -39,13 +39,18 @@ const PreGame = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [wagonSupplies, setWagonSupplies] = useState<Supply[]>(supplies.map(s => ({ ...s, units: 0 })));
   const [dollars, setDollars] = useState<number>(0);
-  const [showGame, setShowGame] = useState<boolean>(false); // State to trigger game render
+  const [showGame, setShowGame] = useState<boolean>(false);
 
-  console.log('PreGame state:', { selectedCharacter, wagonSupplies, dollars }); // Debug log
+  useEffect(() => {
+    console.log('PreGame initialized', { selectedCharacter, wagonSupplies, dollars, showGame });
+  }, [selectedCharacter, wagonSupplies, dollars, showGame]);
 
   const handleCharacterSelect = (character: Character) => {
-    setSelectedCharacter(character);
-    setDollars(character.dollars);
+    if (!selectedCharacter) {
+      setSelectedCharacter(character);
+      setDollars(character.dollars);
+      console.log('Character selected', character.name);
+    }
   };
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, supply: Supply) => {
@@ -61,6 +66,7 @@ const PreGame = () => {
       setWagonSupplies((prev) =>
         prev.map(s => s.id === supplyId ? { ...s, units: s.units + 1 } : s)
       );
+      console.log('Item dropped', supplyId, wagonSupplies);
     }
   };
 
@@ -69,12 +75,21 @@ const PreGame = () => {
   };
 
   const startJourney = () => {
-    console.log('Start Journey clicked', { selectedCharacter, wagonSupplies }); // Debug log
+    console.log('Start Journey clicked', { selectedCharacter, wagonSupplies, showGame });
     if (selectedCharacter && wagonSupplies.some(s => s.units > 0)) {
-      setShowGame(true); // Update state to render Game
+      setShowGame(true);
+      console.log('Transitioning to Game');
     } else {
       alert("Please select a character and purchase at least one item to start!");
     }
+  };
+
+  const handleReset = () => {
+    setSelectedCharacter(null);
+    setWagonSupplies(supplies.map(s => ({ ...s, units: 0 })));
+    setDollars(0);
+    setShowGame(false);
+    console.log('Reset to PreGame');
   };
 
   return (
@@ -123,7 +138,7 @@ const PreGame = () => {
           </button>
         </div>
       )}
-      {showGame && <Game initialSupplies={wagonSupplies} initialDollars={dollars} character={selectedCharacter!} />}
+      {showGame && <Game initialSupplies={wagonSupplies} initialDollars={dollars} character={selectedCharacter!} onReset={handleReset} />}
     </>
   );
 };
